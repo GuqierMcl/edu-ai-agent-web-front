@@ -1,0 +1,44 @@
+html {
+  font-size: 4px; // * 1rem = 4px
+}
+
+.card-shadow {
+  box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017;
+}
+
+.grey {
+  color: #6a6a6a;
+}
+
+// 识别文字回车
+.pre-wrap {
+  white-space: pre-wrap;
+}
+
+.n-cascader-menu .n-cascader-option.n-cascader-option--pending {
+  background-color: #29b56a6d;
+}
+
+.bg-full {
+  background-size: 100% 100%;
+}
+// 改变滚动条
+::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 4px;
+  min-height: 15px;
+  background: rgba(50, 50, 50, 0.3) !important;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  border-radius: 2px;
+}
