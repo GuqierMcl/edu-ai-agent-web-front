@@ -20,14 +20,14 @@
             />
         </n-form-item>
         <n-form-item v-if="isEdit" label="图片">
-            <n-image width="300" :src="formData.remoteFileUrl" />
+            <n-image width="300" :src="formData.remote_file_url" />
         </n-form-item>
         <n-form-item v-else label="图片">
             <n-upload
                 v-model:file-list="formData.file"
                 :default-upload="false"
-                list-type="image"
-                accept="image/*"
+                list-type="Resource"
+                accept="Resource/*"
                 :max="1"
             >
                 <n-button>上传文件</n-button>
@@ -43,9 +43,8 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import type { FormInst, SelectOption } from "naive-ui";
-import { rules } from "./common";
-import imageApi from "@/api/resourceApi";
-import optionsApi from "@/api/optionsApi";
+import { rules, options } from "./common";
+import ResourceApi from "@/api/resourceApi";
 
 const props = defineProps({
     isEdit: {
@@ -53,25 +52,20 @@ const props = defineProps({
         require: true,
     },
     formData: {
-        type: Object as () => ImageAdd,
+        type: Object as () => ResourceAdd,
         require: false,
         default: {},
     },
 });
 const emits = defineEmits(["close", "reloadList"]);
 const formRef = ref<FormInst>();
-const options = ref<SelectOption[]>([]);
-
-const getImageType = async () => {
-    options.value = await optionsApi.getImageTypeOptions();
-};
 
 const save = () => {
     formRef.value?.validate(async (errors) => {
         if (!errors) {
             let resCode: number;
             if (props.isEdit) {
-                const { code } = await imageApi.update(<Image>props.formData);
+                const { code } = await ResourceApi.update(<Resource>props.formData);
                 resCode = code;
             } else {
                 const formDataReq = new FormData();
@@ -86,7 +80,7 @@ const save = () => {
 
                 // @ts-ignore
                 formDataReq.append("file", props.formData.file[0].file);
-                const { code } = await imageApi.add(formDataReq);
+                const { code } = await ResourceApi.add(formDataReq);
 
                 resCode = code;
             }
@@ -102,7 +96,6 @@ const save = () => {
     });
 };
 onMounted(() => {
-    getImageType();
 });
 </script>
 

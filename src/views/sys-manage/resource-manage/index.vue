@@ -4,25 +4,23 @@
             <n-spin :show="loading">
                 <div class="header w-full">
                     <ContextHeader
-                        @search="loadImageList"
-                        @add="addImage"
-                        @remove="delImages"
-                        batchImport
-                        @batchImport="showImportModal = true"
+                        @search="loadResourceList"
+                        @add="addResource"
+                        @remove="delResources"
                     ></ContextHeader>
                 </div>
                 <div class="flex flex-wrap">
                     <div class="my-5 f-c-c">
-                        图片名称<n-input
-                            v-model:value="imageQueryInfo.name"
-                            @blur="loadImageList"
+                        资源名称<n-input
+                            v-model:value="resourceQueryInfo.name"
+                            @blur="loadResourceList"
                             class="ml-20 w-300! mr-20"
                         />
                     </div>
                     <div class="my-5 f-c-c">
-                        图片类型<n-select
-                            v-model:value="imageQueryInfo.type"
-                            @update:value="loadImageList"
+                        资源类型<n-select
+                            v-model:value="resourceQueryInfo.type"
+                            @update:value="loadResourceList"
                             :options="options"
                             class="ml-20 w-300!"
                         />
@@ -33,21 +31,21 @@
                         :single-line="false"
                         :columns="columns"
                         :data="tableData"
-                        :row-key="(row: Image) => row.id"
+                        :row-key="(row: Resource) => row.id"
                         v-model:checked-row-keys="checkedRows"
                     />
                     <!-- @update:checked-row-keys="(rowkeys: string[]) => checkedRows = rowkeys" -->
                     <div class="w-full flex justify-end">
                         <n-pagination
                             class="mt-20"
-                            v-model:page="imageQueryInfo.page"
-                            v-model:page-size="imageQueryInfo.pageSize"
+                            v-model:page="resourceQueryInfo.page"
+                            v-model:page-size="resourceQueryInfo.pageSize"
                             :item-count="total"
                             show-size-picker
                             show-quick-jumper
                             :page-sizes="pageSizes"
-                            @update:page="loadImageList"
-                            @update:page-size="loadImageList"
+                            @update:page="loadResourceList"
+                            @update:page-size="loadResourceList"
                         >
                         </n-pagination>
                     </div>
@@ -62,10 +60,10 @@
                 size="huge"
             >
                 <Form
-                    :formData="<ImageAdd>formData"
+                    :formData="<ResourceAdd>formData"
                     :isEdit="isEdit"
                     @close="showModal = false"
-                    @reloadList="loadImageList"
+                    @reloadList="loadResourceList"
                 ></Form>
             </n-modal>
         </div>
@@ -92,14 +90,14 @@
                             :options="options"
                         />
                     </n-form-item>
-                    <n-form-item label="图片">
+                    <n-form-item label="资源">
                         <n-upload
                             ref="uploadRef"
                             v-model:file-list="formData.file"
                             multiple
                             :default-upload="false"
-                            list-type="image"
-                            accept="image/*"
+                            list-type="Resource"
+                            accept="Resource/*"
                         >
                             <n-button>上传文件</n-button>
                         </n-upload>
@@ -118,18 +116,17 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import imageApi from "@/api/resourceApi";
-import optionsApi from "@/api/optionsApi";
+import resourceApi from "@/api/resourceApi";
 import Form from "./Form.vue";
 import type { FormInst, SelectOption } from "naive-ui";
-import { generateColumns, batchRules, pageSizes } from "./common";
+import { generateColumns, batchRules, pageSizes, options } from "./common";
 import { isEmpty } from "@/utils";
 
 const showModal = ref<boolean>(false);
 const showImportModal = ref<boolean>(false);
-const modalTitle = ref("批量上传图片");
-const tableData = ref<Image[]>();
-const formData = ref(<Image>{});
+const modalTitle = ref("批量上传资源");
+const tableData = ref<Resource[]>();
+const formData = ref(<Resource>{});
 const isEdit = ref<boolean>(false);
 const checkedRows = ref<string[]>([]);
 const total = ref<number>();
@@ -137,30 +134,21 @@ const formRef = ref<FormInst>();
 const loading = ref(false);
 const importLoading = ref(false);
 const uploadRef = ref();
-const imageQueryInfo = ref(<ImageQueryInfo>{
+const resourceQueryInfo = ref(<ResourceQueryInfo>{
     page: 1,
     pageSize: 10,
     type: "",
     name: "",
 });
 
-const options = ref<SelectOption[]>([]);
-
-const getImageType = async () => {
-    console.log(options.value);
-
-    options.value = await optionsApi.getImageTypeOptions();
-    console.log(options.value);
-};
-
-const editImage = (row: Image) => {
-    modalTitle.value = "修改图片信息";
-    formData.value = <Image>row;
+const editResource = (row: Resource) => {
+    modalTitle.value = "修改资源信息";
+    formData.value = <Resource>row;
     isEdit.value = true;
     showModal.value = true;
 };
 
-const delImage = (row: Image) => {
+const delResource = (row: Resource) => {
     if (isEmpty(row)) return;
     window.$dialog.warning({
         title: "警告",
@@ -168,41 +156,41 @@ const delImage = (row: Image) => {
         positiveText: "确定",
         negativeText: "取消",
         onPositiveClick: async () => {
-            const { code } = await imageApi.removeBatch([<string>row.id]);
+            const { code } = await resourceApi.removeBatch([<string>row.id]);
             if (code === 1) {
                 window.$message.success("删除成功");
                 checkedRows.value = checkedRows.value.filter(
                     (item) => item != row.id
                 );
-                loadImageList();
+                loadResourceList();
             }
         },
     });
 };
 
-const { columns } = generateColumns(editImage, delImage);
+const { columns } = generateColumns(editResource, delResource);
 
-const addImage = () => {
-    modalTitle.value = "添加图片(单张)";
-    formData.value = <ImageAdd>{};
+const addResource = () => {
+    modalTitle.value = "添加资源(单个)";
+    formData.value = <ResourceAdd>{};
     isEdit.value = false;
     showModal.value = true;
 };
 
-const delImages = () => {
+const delResources = () => {
     if (checkedRows.value.length === 0) return;
 
     window.$dialog.warning({
         title: "警告",
-        content: `确定删除所选的 ${checkedRows.value.length}张 图片吗`,
+        content: `确定删除所选的 ${checkedRows.value.length}张 资源吗`,
         positiveText: "确定",
         negativeText: "取消",
         onPositiveClick: async () => {
-            const { code } = await imageApi.removeBatch(checkedRows.value);
+            const { code } = await resourceApi.removeBatch(checkedRows.value);
             if (code === 1) {
                 window.$message.success("删除成功");
                 checkedRows.value = [];
-                loadImageList();
+                loadResourceList();
             }
         },
     });
@@ -219,6 +207,7 @@ const batchImport = () => {
                 // @ts-ignore
                 formDataReq.append(
                     "name",
+                    // @ts-ignore
                     formData.value.file[i].name.split(".")[0]
                 );
                 formDataReq.append("type", <string>formData.value.type);
@@ -226,7 +215,7 @@ const batchImport = () => {
                 // @ts-ignore
                 formDataReq.append("file", formData.value.file[i].file);
             }
-            const { code } = await imageApi.add(formDataReq);
+            const { code } = await resourceApi.add(formDataReq);
             resCode = code;
             if (resCode === 1) {
                 window.$message.success("上传成功");
@@ -239,13 +228,13 @@ const batchImport = () => {
         }
         importLoading.value = false;
     });
-    loadImageList();
+    loadResourceList();
 };
 
-const loadImageList = async () => {
+const loadResourceList = async () => {
     checkedRows.value = [];
     loading.value = true;
-    const { code, data } = await imageApi.getList(imageQueryInfo.value);
+    const { code, data } = await resourceApi.getList(resourceQueryInfo.value);
     if (code === 1) {
         tableData.value = data.records;
         total.value = data.total;
@@ -254,8 +243,8 @@ const loadImageList = async () => {
 };
 
 onMounted(() => {
-    getImageType();
-    loadImageList();
+    // getResourceType();
+    loadResourceList();
 });
 </script>
 

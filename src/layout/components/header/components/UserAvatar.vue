@@ -79,10 +79,7 @@
                     />
                 </n-form-item>
                 <n-form-item label="上一次登录时间">
-                    <n-input
-                        v-model:value="userInfo.last_login"
-                        disabled
-                    />
+                    <n-input v-model:value="userInfo.last_login" disabled />
                 </n-form-item>
             </n-form>
         </template>
@@ -144,7 +141,7 @@ import {
 import { FormItemRule, UploadFileInfo } from "naive-ui";
 import DefaultAvatar from "@/assets/images/defaultAvatar.png";
 import userApi from "@/api/userApi";
-import imageApi from "@/api/imageApi";
+import imageApi from "@/api/resourceApi";
 
 const showModal = ref(false);
 const showTitle = ref("修改个人信息");
