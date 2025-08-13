@@ -5,8 +5,8 @@
                 :bordered="true"
                 round
                 :src="
-                    userStore.userInfo.avatarUrl?.length
-                        ? userStore.userInfo.avatarUrl
+                    userStore.userInfo.avatar_url?.length
+                        ? userStore.userInfo.avatar_url
                         : DefaultAvatar
                 "
                 :fallback-src="DefaultAvatar"
@@ -38,8 +38,8 @@
                         round
                         :size="150"
                         :src="
-                            copyUserInfo.avatarUrl?.length
-                                ? copyUserInfo.avatarUrl
+                            copyUserInfo.avatar_url?.length
+                                ? copyUserInfo.avatar_url
                                 : DefaultAvatar
                         "
                         :fallback-src="DefaultAvatar"
@@ -141,7 +141,7 @@ import {
 import { FormItemRule, UploadFileInfo } from "naive-ui";
 import DefaultAvatar from "@/assets/images/defaultAvatar.png";
 import userApi from "@/api/userApi";
-import imageApi from "@/api/resourceApi";
+import resourceApi from "@/api/resourceApi";
 
 const showModal = ref(false);
 const showTitle = ref("修改个人信息");
@@ -308,11 +308,11 @@ const updateAvater = async ({ file }: { file: UploadFileInfo }) => {
     formData.append("sequence", 1);
     // @ts-ignore
     formData.append("file", file.file);
-    const { code, data } = await imageApi.updateAvatar(formData);
+    const { code, data } = await resourceApi.updateAvatar(formData);
     if (code == 1) {
-        window.$message.success("修改头像成功");
-        copyUserInfo.value.avatar = data.imageId;
-        copyUserInfo.value.avatarUrl = data.imageUrl;
+        window.$message.success("头像上传成功，点击“保存”按钮更新用户信息。");
+        copyUserInfo.value.avatar = data.id;
+        copyUserInfo.value.avatar_url = data.remote_file_url;
     }
 
     return false;

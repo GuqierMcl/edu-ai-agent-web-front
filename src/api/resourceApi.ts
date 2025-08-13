@@ -32,7 +32,7 @@ export default {
     },
     updateAvatar: (resource: any) => {
         return request.request({
-            url: "/resource/uploadSingle",
+            url: "/resource/upload",
             method: "POST",
             headers: {
                 "content-type": "multipart/form-data",
