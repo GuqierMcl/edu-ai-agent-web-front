@@ -70,7 +70,8 @@ const save = () => {
         if (!errors) {
             let resCode: number;
             if (props.isEdit) {
-                const { code } = await resourceApi.update(<Resource>props.formData);
+                props.formData.file = null as any; // 清除文件字段，避免提交时出错
+                const { code } = await resourceApi.update(props.formData);
                 resCode = code;
             } else {
                 const formDataReq = new FormData();

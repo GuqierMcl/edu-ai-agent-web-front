@@ -152,9 +152,10 @@ const getResourceType = async () => {
 
 const editResource = (row: Resource) => {
     modalTitle.value = "修改资源信息";
-    formData.value = <Resource>row;
+    formData.value = {...<Resource>row};
     isEdit.value = true;
     showModal.value = true;
+    loadResourceList();
 };
 
 const delResource = (row: Resource) => {
