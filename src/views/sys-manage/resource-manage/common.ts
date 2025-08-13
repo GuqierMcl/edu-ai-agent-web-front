@@ -87,6 +87,7 @@ export const generateColumns = (
                             type: "primary",
                             style: "margin-right: 15px",
                             onClick: () => doEdit(row),
+                            disabled: Number(row.type) < 0,
                         },
                         {
                             icon: () =>
@@ -102,6 +103,7 @@ export const generateColumns = (
                             size: "small",
                             type: "error",
                             onClick: () => doDelete(row),
+                            disabled: Number(row.type) < 0,
                         },
                         {
                             icon: () =>

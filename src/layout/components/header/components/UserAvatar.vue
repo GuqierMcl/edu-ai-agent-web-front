@@ -301,9 +301,10 @@ const updateAvater = async ({ file }: { file: UploadFileInfo }) => {
     const formData = new FormData();
     console.log(file);
     // @ts-ignore
-    formData.append("name", file.name.split(".")[0]);
+    // formData.append("name", file.name.split(".")[0]);
+    formData.append("name", `用户${copyUserInfo.value.userId}头像`);
     // @ts-ignore
-    formData.append("type", "0");
+    formData.append("type", "-1");
     // @ts-ignore
     formData.append("sequence", 1);
     // @ts-ignore
