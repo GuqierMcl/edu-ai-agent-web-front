@@ -160,7 +160,7 @@ const resetPasswordInfo = ref({
 
 const options = [
     {
-        label: "修改个人信息",
+        label: "修改账户信息",
         key: "edit",
         icon: renderIcon(EditNoteOutlined, { size: "14px" }),
     },
