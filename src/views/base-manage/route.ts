@@ -119,7 +119,7 @@ export default {
         {
           name: "CodeList",
           path: "/base/code/list",
-          component: () => import("./code/index.vue"),
+          component: () => import("../sys-manage/code/index.vue"),
           meta: {
             title: "码表管理",
             icon: markRaw(AnimationRound),

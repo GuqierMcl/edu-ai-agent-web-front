@@ -119,7 +119,7 @@ import { ref, onMounted } from "vue";
 import resourceApi from "@/api/resourceApi";
 import Form from "./Form.vue";
 import type { FormInst, SelectOption } from "naive-ui";
-import { generateColumns, batchRules, pageSizes, options } from "./common";
+import { generateColumns, batchRules, pageSizes } from "./common";
 import { isEmpty } from "@/utils";
 
 const showModal = ref<boolean>(false);
@@ -140,6 +140,15 @@ const resourceQueryInfo = ref(<ResourceQueryInfo>{
     type: "",
     name: "",
 });
+
+const options = ref<SelectOption[]>([]);
+
+const getResourceType = async () => {
+    console.log(options.value);
+
+    options.value = await resourceApi.getResourceType();
+    console.log(options.value);
+};
 
 const editResource = (row: Resource) => {
     modalTitle.value = "修改资源信息";
@@ -168,7 +177,7 @@ const delResource = (row: Resource) => {
     });
 };
 
-const { columns } = generateColumns(editResource, delResource);
+const { columns } = generateColumns(editResource, delResource, options.value);
 
 const addResource = () => {
     modalTitle.value = "添加资源(单个)";
@@ -243,7 +252,7 @@ const loadResourceList = async () => {
 };
 
 onMounted(() => {
-    // getResourceType();
+    getResourceType();
     loadResourceList();
 });
 </script>

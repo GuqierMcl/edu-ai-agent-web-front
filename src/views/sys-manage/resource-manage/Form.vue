@@ -43,8 +43,8 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import type { FormInst, SelectOption } from "naive-ui";
-import { rules, options } from "./common";
-import ResourceApi from "@/api/resourceApi";
+import { rules } from "./common";
+import resourceApi from "@/api/resourceApi";
 
 const props = defineProps({
     isEdit: {
@@ -59,13 +59,18 @@ const props = defineProps({
 });
 const emits = defineEmits(["close", "reloadList"]);
 const formRef = ref<FormInst>();
+const options = ref<SelectOption[]>([]);
+
+const getResourceType = async () => {
+    options.value = await resourceApi.getResourceType();
+};
 
 const save = () => {
     formRef.value?.validate(async (errors) => {
         if (!errors) {
             let resCode: number;
             if (props.isEdit) {
-                const { code } = await ResourceApi.update(<Resource>props.formData);
+                const { code } = await resourceApi.update(<Resource>props.formData);
                 resCode = code;
             } else {
                 const formDataReq = new FormData();
@@ -80,7 +85,7 @@ const save = () => {
 
                 // @ts-ignore
                 formDataReq.append("file", props.formData.file[0].file);
-                const { code } = await ResourceApi.add(formDataReq);
+                const { code } = await resourceApi.add(formDataReq);
 
                 resCode = code;
             }
@@ -96,6 +101,7 @@ const save = () => {
     });
 };
 onMounted(() => {
+    getResourceType();
 });
 </script>
 

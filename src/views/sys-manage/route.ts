@@ -10,6 +10,7 @@ import {
     AttributionRound,
     SettingsPowerRound,
     AttachFileFilled,
+    AnimationRound,
 } from "@vicons/material";
 
 export default {
@@ -32,6 +33,18 @@ export default {
                 requireAuth: false,
                 title: "资源管理",
                 icon: markRaw(AttachFileFilled),
+                role: ["admin"],
+                order: 1,
+            },
+        },
+        {
+            name: "CodeManage",
+            path: "/base/code",
+            component: () => import("../sys-manage/code/index.vue"),
+            meta: {
+                requireAuth: false,
+                title: "码表管理",
+                icon: markRaw(AnimationRound),
                 role: ["admin"],
                 order: 1,
             },
