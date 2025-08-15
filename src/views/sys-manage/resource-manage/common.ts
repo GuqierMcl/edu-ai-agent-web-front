@@ -1,5 +1,5 @@
 import { h } from "vue";
-import { NButton, NIcon, NImage } from "naive-ui";
+import { NButton, NEmpty, NIcon, NImage } from "naive-ui";
 import type { DataTableColumns } from "naive-ui";
 import { EditNoteRound, CloseRound } from "@vicons/material";
 
@@ -23,6 +23,13 @@ export const generateColumns = (
             width: 90,
             ellipsis: { tooltip: true },
         },
+
+        {
+            title: "源文件名",
+            key: "old_filename",
+            width: 90,
+            ellipsis: { tooltip: true },
+        },
         {
             title: "类型",
             key: "type_name",
@@ -41,11 +48,23 @@ export const generateColumns = (
             width: 120,
             align: "center",
             render(row) {
+                // if (row.old_filename?.split(".")[1] === "jpg" ) {
+                //     return h(NImage, {
+                //         width: 120,
+                //         maxHeight: 120,
+                //         src: row.remote_file_url,
+                //     });
+                // }
+                // return h(NEmpty, {
+                //     description: "无缩略图",
+                //     width: 120,
+                //     height: 120,
+                // });
                 return h(NImage, {
-                    width: 120,
-                    maxHeight: 120,
-                    src: row.remote_file_url,
-                });
+                        width: 120,
+                        maxHeight: 120,
+                        src: row.remote_file_url,
+                    });
             },
         },
         {

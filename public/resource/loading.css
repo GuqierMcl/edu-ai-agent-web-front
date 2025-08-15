@@ -13,7 +13,7 @@
 #loading-logo.loading-bg {
   width: 960px;
   height: 340px;
-  background-image: url("./logo-complete.png");
+  background-image: url("../logo-complete.png");
   background-size: 100% 100%;
 }
 

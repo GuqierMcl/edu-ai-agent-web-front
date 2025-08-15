@@ -1,33 +1,71 @@
 export {};
 
 declare global {
+  interface StudentUser {
+      account: string;
+      avatar: string;
+      avatar_url: string;
+      email: string;
+      expired_time: string;
+      id: string;
+      last_login: string;
+      name: string;
+      nickname: string;
+      phone: string;
+      type: string;
+  }
+
   interface Student {
-    id?: string; //学生ID
-    account?: string; //账号
-    name?: string; //姓名
-    gender?: string;
-    collegeId?: string;
-    collegeName?: string; //学院（值来源于ts_organization）
-    majorId?: string;
-    majorName?: string; //专业（值来源于ts_organization）
-    gradeId?: string;
-    gradeName?: string; //年级（来自tc_code）
-    clazzId?: string; //班级（来自ts_clazz）
-    clazzName?: string; //班级名称
-    score?: string; //积分
-    rankName?: string;
-    memo?: string; //备注
+      id: string;
+      address: string;
+      birth_date: string;
+      create_time: string;
+      enrollment: string;
+      gender: string;
+      identity: string;
+      identity_name: string;
+      remark: string;
+      school_no: string;
+      status: string;
+      status_name: string;
+      student_no: string;
+      update_time: string;
+      user: StudentUser;
   }
 
   interface StudentAdd {
-    account: string;
-    name: string;
-    gender: string;
-    clazzId: string;
+      account: string;
+      password: string;
+      address?: string;
+      birth_date?: string;
+      email?: string;
+      enrollment?: string;
+      gender?: string;
+      identity?: string;
+      name: string;
+      nickname: string;
+      phone: string;
+      remark?: string;
+      school_no?: string;
+      status?: string;
+      student_no?: string;
   }
 
-  interface StudentUpdate extends StudentAdd {
-    id: string;
+  interface StudentUpdate {
+      id: string;
+      address?: string;
+      birth_date?: string;
+      email?: string;
+      enrollment?: string;
+      gender?: string;
+      identity?: string;
+      name: string;
+      nickname: string;
+      phone: string;
+      remark?: string;
+      school_no?: string;
+      status?: string;
+      student_no?: string;
   }
 
   interface StuExcel {

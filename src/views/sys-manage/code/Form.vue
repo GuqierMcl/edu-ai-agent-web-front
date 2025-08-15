@@ -16,7 +16,6 @@
     </n-form-item>
     <n-form-item label="名称" path="name">
       <n-input
-        @blur="getPinyin"
         v-model:value="formData.name"
         placeholder="请输入名称"
       />
@@ -93,14 +92,6 @@ const rules = ref({
     trigger: ["input", "blur"],
   },
 });
-
-const getPinyin = async () => {
-  if (!isProjectType.value) return;
-  const { code, data } = await codeApi.getPinyin(<string>props.formData.name);
-  if (code == 1) {
-    props.formData.code = data;
-  }
-};
 const save = () => {
   formRef.value?.validate(async (errors) => {
     if (!errors) {

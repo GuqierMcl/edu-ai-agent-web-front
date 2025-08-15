@@ -7,6 +7,4 @@ export default {
   add: (code: CodeAdd) => request.post("/code", code),
   update: (code: Code) => request.put("/code", code),
   removeBatch: (ids: string[]) => request.delete("/code", { ids: ids }),
-  getPinyin: (string: string) =>
-    request.get("/social/pinyin", { string: string }),
 };
