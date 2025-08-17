@@ -106,6 +106,8 @@
             <Form
                 :formData="formData"
                 :isEdit="isEdit"
+                :identity-options="identityOptions"
+                :status-options="statusOptions"
                 @close="showFormModal = false"
                 @reloadList="getList"
             ></Form>
