@@ -36,29 +36,15 @@ export default {
             },
         },
         {
-            name: "TeacherManage",
+            name: "TeacherList",
             path: "/base/teacher",
-            component: AppPageSlide,
+            component: () => import("./teacher/index.vue"),
             meta: {
-                requireAuth: false,
                 title: "教师信息管理",
                 icon: markRaw(PersonRound),
                 role: ["admin"],
-                order: 2,
+                order: 1,
             },
-            children: [
-                {
-                    name: "TeacherList",
-                    path: "/base/teacher/list",
-                    component: () => import("./teacher/teacher-list/index.vue"),
-                    meta: {
-                        title: "教师信息管理",
-                        icon: markRaw(PersonRound),
-                        role: ["admin"],
-                        order: 1,
-                    },
-                },
-            ],
         },
     ],
 };
