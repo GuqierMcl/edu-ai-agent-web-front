@@ -4,6 +4,7 @@ declare global {
     interface UserInfo {
         id?: string;
         name?: string;
+        nickname?: string;
         account?: string;
         avatar?: string;
         avatar_url?: string;

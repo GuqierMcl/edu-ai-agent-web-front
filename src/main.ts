@@ -6,11 +6,13 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import { createPinia } from "pinia";
 import { setupRouter } from "./router";
-//张力文 v0.1 v0.2 v0.3 v0.4 v0.5
+import ElementPlusX from "vue-element-plus-x";
+
 async function setupApp() {
   const app = createApp(App);
   const pinia = createPinia();
   app.use(pinia);
+  app.use(ElementPlusX);
   await setupRouter(app);
   app.mount("#app");
 }

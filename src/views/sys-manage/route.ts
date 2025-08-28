@@ -86,9 +86,10 @@ export default {
         },
         {
             name: "Auth",
-            path: "/sys/auth",
+            path: "/sys/perm",
             component: AppPageSlide,
             meta: {
+                requireAuth: false,
                 title: "权限管理",
                 icon: markRaw(AddCardRound),
                 role: ["admin"],
@@ -97,20 +98,22 @@ export default {
             children: [
                 {
                     name: "RoleManage",
-                    path: "/sys/auth/role",
-                    component: () => import("./auth/auth/index.vue"),
+                    path: "/sys/perm/user",
+                    component: () => import("./rbac/user-role/index.vue"),
                     meta: {
-                        title: "教师角色管理",
+                        requireAuth: false,
+                        title: "用户角色管理",
                         icon: markRaw(AttributionRound),
                         role: ["admin"],
                         order: 1,
                     },
                 },
                 {
-                    name: "AuthManage",
-                    path: "/sys/role/auth",
-                    component: () => import("./auth/role/index.vue"),
+                    name: "PermManage",
+                    path: "/sys/perm/role",
+                    component: () => import("./rbac/permission-role/index.vue"),
                     meta: {
+                        requireAuth: false,
                         title: "角色权限管理",
                         icon: markRaw(SettingsPowerRound),
                         role: ["admin"],
