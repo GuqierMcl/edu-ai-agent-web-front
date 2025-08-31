@@ -11,6 +11,30 @@
                         :search="false"
                     ></ContextHeader>
                 </div>
+                <div class="flex flex-wrap">
+                    <div class="my-5 f-c-c ">
+                        角色名<n-input
+                            v-model:value="queryParams.role_name"
+                            @update:value="getList"
+                            class="ml-20 w-300! mr-20"
+                        />
+                    </div>
+                    <div class="my-5 f-c-c">
+                        角色码<n-input
+                            v-model:value="queryParams.role_key"
+                            @update:value="getList"
+                            class="ml-20 w-300! mr-20"
+                        />
+                    </div>
+                    <div class="my-5 f-c-c">
+                        角色类型<n-select
+                            v-model:value="queryParams.type"
+                            @update:value="getList"
+                            :options="options"
+                            class="ml-20 w-300!"
+                        />
+                    </div>
+                </div>
                 <div class="w-full mt-20">
                     <n-data-table
                         size="small"
@@ -77,7 +101,16 @@ const tableData = ref(<Page.Resp<RoleList>>{});
 const queryParams = ref<RoleQueryInfo>({
     page: 1,
     pageSize: 10,
+    type: "",
+    role_name: "",
+    role_key: "",
 });
+const options = ref([
+    { label: "全部", value: "" },
+    { label: "可选", value: "0" },
+    { label: "系统", value: "1" },
+    { label: "自定义", value: "2" },
+]);
 const checkedRows = ref<string[]>([]);
 const currRole = ref<RoleList>({});
 

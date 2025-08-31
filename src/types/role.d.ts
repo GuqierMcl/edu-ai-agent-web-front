@@ -20,10 +20,18 @@ declare global {
         role_name?: string;
         des?: string;
     }
-    interface RoleQueryInfo extends Page.Req {}
+    interface RoleQueryInfo extends Page.Req {
+        role_key?: string;
+        role_name?: string;
+        type?: string;
+    }
 
     interface EditRoleQueryInfo {
         roleId?: string;
         permissionIds?: string[];
+    }
+
+    interface UserWithRoles extends UserInfo {
+        roles?: RoleList[];
     }
 }

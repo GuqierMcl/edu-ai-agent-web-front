@@ -3,9 +3,13 @@ import { request } from "@/utils";
 export default {
     addRole: (RoleAdd: RoleAdd) => request.post("/role", RoleAdd),
     getRoleList: (RoleQueryInfo: RoleQueryInfo) =>
-    request.get<Page.Resp<RoleList>>("/role", RoleQueryInfo),
+        request.get<Page.Resp<RoleList>>("/role", RoleQueryInfo),
     getAllRoleList: () => request.get<RoleList[]>("/role/all"),
-    updateRole: (RoleUpdate: RoleUpdate) =>
-        request.put("/role", RoleUpdate),
+    updateRole: (RoleUpdate: RoleUpdate) => request.put("/role", RoleUpdate),
     deleteRole: (ids: string[]) => request.delete("/role", { ids: ids }),
+
+    getUserRoleList: (userId?: string) =>
+        request.get<RoleList[]>("/role/user", { userId }),
+    updateUserRole: (updateUserRole: any) =>
+        request.put("/role/user", updateUserRole),
 };

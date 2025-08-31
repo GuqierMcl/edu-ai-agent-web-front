@@ -18,6 +18,9 @@ interface ResetPassword {
 }
 export default {
   getUser: () => request.get("/user"),
+  getUsersByType: (params: any) => request.get("/user/type", params),
+
+  // 以下接口待重构
   getAdminPage: (params: AdminPageParams) =>
     request.get<Page.Resp<Admin>>("/user/admin", params),
   addAdmin: (data: AdminAdd) => request.post("/user/admin", data),
