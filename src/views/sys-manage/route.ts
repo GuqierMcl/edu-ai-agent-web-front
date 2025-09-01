@@ -18,7 +18,7 @@ export default {
     path: "/sys",
     component: () => import("@/layout/index.vue"),
     meta: {
-        requireAuth: false,
+        perm: ["page:common:sys:index"],
         title: "系统管理",
         icon: markRaw(SettingsRound),
         role: ["admin"],
@@ -30,7 +30,7 @@ export default {
             path: "/sys/resource",
             component: () => import("./resource-manage/index.vue"),
             meta: {
-                requireAuth: false,
+                perm: ["page:common:sys:resource"],
                 title: "资源管理",
                 icon: markRaw(AttachFileFilled),
                 role: ["admin"],
@@ -42,7 +42,7 @@ export default {
             path: "/base/code",
             component: () => import("../sys-manage/code/index.vue"),
             meta: {
-                requireAuth: false,
+                perm: ["page:common:sys:code"],
                 title: "码表管理",
                 icon: markRaw(AnimationRound),
                 role: ["admin"],
@@ -89,7 +89,7 @@ export default {
             path: "/sys/perm",
             component: AppPageSlide,
             meta: {
-                requireAuth: false,
+                perm: ["page:common:sys:rbac:index"],
                 title: "权限管理",
                 icon: markRaw(AddCardRound),
                 role: ["admin"],
@@ -101,7 +101,7 @@ export default {
                     path: "/sys/perm/user",
                     component: () => import("./rbac/user-role/index.vue"),
                     meta: {
-                        requireAuth: false,
+                        perm: ["page:common:sys:rbac:user-role"],
                         title: "用户角色管理",
                         icon: markRaw(AttributionRound),
                         role: ["admin"],
@@ -113,7 +113,7 @@ export default {
                     path: "/sys/perm/role",
                     component: () => import("./rbac/permission-role/index.vue"),
                     meta: {
-                        requireAuth: false,
+                        perm: ["page:common:sys:rbac:permission-role"],
                         title: "角色权限管理",
                         icon: markRaw(SettingsPowerRound),
                         role: ["admin"],
