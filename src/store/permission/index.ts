@@ -14,10 +14,12 @@ function hasPermission(route: Route.Row, permissions: string[]) {
     return true;
   }
 
-  // 登录用户拥有指定的路由权限
-  let flag = permissions.includes(route.name);
+  const routePerm = route.meta?.perm ? route.meta.perm : [];
 
-  return flag;
+  if (!permissions.length || !routePerm.length) return false;
+
+  // 登录用户拥有指定的路由权限
+  return permissions.some((item) => routePerm.includes(item));
 }
 
 function filterAsyncRoutes(routes: Route.Row[] = [], permissions: string[]) {

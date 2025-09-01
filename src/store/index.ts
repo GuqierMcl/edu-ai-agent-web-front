@@ -3,3 +3,4 @@ export * from "./permission";
 export * from "./app";
 export * from "./tags";
 export * from "./page";
+export * from "./chat";

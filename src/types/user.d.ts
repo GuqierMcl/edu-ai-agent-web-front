@@ -11,7 +11,7 @@ declare global {
         email?: string;
         phone?: string;
         roles?: string[];
-        permission_keys?: string[];
+        permissions?: string[];
         type?: string;
         last_login?: string;
     }

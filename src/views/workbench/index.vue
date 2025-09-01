@@ -15,7 +15,7 @@
                         :fallback-src="DefaultAvatar"
                     />
                     <div class="ml-20">
-                        <p class="text-16">Hello, {{ userStore.name }}</p>
+                        <p class="text-16">{{ `${greeting}好，${userStore.nickname}！` }}</p>
                         <p class="mt-5 text-12 op-60">今天又是元气满满的一天</p>
                     </div>
                 </div>
@@ -150,6 +150,9 @@ import workbenchApi from "@/api/workbenchApi";
 import { onMounted, ref, computed } from "vue";
 import DefaultAvatar from "@/assets/images/defaultAvatar.png";
 import myEcharts from "./echarts/index.vue";
+import { useTimeGreeting } from '@/hooks/useTimeGreeting';
+
+const greeting = useTimeGreeting();
 
 const teachingList = ref<any>([]);
 const statistics = ref(<Statistic>{
