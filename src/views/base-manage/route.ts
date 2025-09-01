@@ -16,7 +16,7 @@ export default {
     path: "/base",
     component: () => import("@/layout/index.vue"),
     meta: {
-        requireAuth: false,
+        perm: ["page:common:base:index"],
         title: "基础信息管理",
         icon: markRaw(ManageAccountsRound),
         role: ["admin"],
@@ -28,7 +28,7 @@ export default {
             path: "/base/student",
             component: () => import("./student/index.vue"),
             meta: {
-                requireAuth: false,
+                perm: ["page:common:base:student"],
                 title: "学生信息管理",
                 icon: markRaw(PeopleAltRound),
                 role: ["admin"],
