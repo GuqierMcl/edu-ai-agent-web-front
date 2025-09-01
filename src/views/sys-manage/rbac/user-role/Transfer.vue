@@ -71,6 +71,7 @@ const getRoleList = async () => {
     options.value = data.map((item) => ({
         label: item.role_name,
         value: item.id,
+        disabled: item.type === "1",
         prefix: () =>
             h(
                 NTag,

@@ -10,6 +10,9 @@
                         :remove="false"
                         :search="false"
                     ></ContextHeader>
+                    <n-alert title="注意" type="info" mb-5>
+                        仅可以给用户类型为教师的用户分配角色。
+                    </n-alert>
                 </div>
                 <div class="w-full mt-20">
                     <n-data-table
