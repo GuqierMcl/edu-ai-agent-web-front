@@ -17,8 +17,10 @@ declare module 'vue' {
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MD: typeof import('./src/components/MD.vue')['default']
     NAlert: typeof import('naive-ui')['NAlert']
+    NAutoComplete: typeof import('naive-ui')['NAutoComplete']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
+    NBadge: typeof import('naive-ui')['NBadge']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']
@@ -72,6 +74,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     ScrollX: typeof import('./src/components/common/ScrollX.vue')['default']
     Test: typeof import('./src/components/Test.vue')['default']
+    UniversitySelector: typeof import('./src/components/university/UniversitySelector.vue')['default']
     WelecomeText: typeof import('./src/components/chat/WelecomeText/index.vue')['default']
   }
 }

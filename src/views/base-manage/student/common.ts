@@ -44,12 +44,12 @@ export const generateColumns = (doEdit: Function, doDelete: Function) => {
             width: 90,
             ellipsis: { tooltip: true },
         },
-        {
-            title: "昵称",
-            key: "user.nickname",
-            width: 90,
-            ellipsis: { tooltip: true },
-        },
+        // {
+        //     title: "昵称",
+        //     key: "user.nickname",
+        //     width: 90,
+        //     ellipsis: { tooltip: true },
+        // },
         {
             title: "性别",
             key: "gender",
@@ -76,7 +76,7 @@ export const generateColumns = (doEdit: Function, doDelete: Function) => {
             ellipsis: { tooltip: true },
         },
         {
-            title: "身份",
+            title: "学历",
             key: "identity_name",
             width: 90,
             ellipsis: { tooltip: true },
@@ -97,9 +97,9 @@ export const generateColumns = (doEdit: Function, doDelete: Function) => {
             ellipsis: { tooltip: true },
         },
         {
-            title: "学校代码",
-            key: "school_no",
-            width: 90,
+            title: "学校",
+            key: "university.school_name",
+            width: 130,
             ellipsis: { tooltip: true },
         },
         {
@@ -227,7 +227,7 @@ export const rules = {
     ],
     email: [
         {
-            required: false,
+            required: true,
             message: "请输入正确的邮箱",
             validator: (rule: FormItemRule, value: string) => {
                 console.log(value);
@@ -245,7 +245,42 @@ export const rules = {
     identity: [
         {
             required: true,
-            message: "请选择身份",
+            message: "请选择学历",
+            trigger: ["input", "blur"],
+        },
+    ],
+    university: [
+        {
+            required: true,
+            message: "请选择学校",
+            trigger: ["input", "blur"],
+        },
+    ],
+    address: [
+        {
+            required: false,
+            message: "请输入地址",
+            trigger: ["input", "blur"],
+        },
+    ],
+    student_no: [
+        {
+            required: false,
+            message: "请输入学号",
+            trigger: ["input", "blur"],
+        },
+    ],
+    birth_date: [
+        {
+            required: false,
+            message: "请输入生日",
+            trigger: ["input", "blur"],
+        },
+    ],
+    status: [
+        {
+            required: true,
+            message: "请选择就读状态",
             trigger: ["input", "blur"],
         },
     ],

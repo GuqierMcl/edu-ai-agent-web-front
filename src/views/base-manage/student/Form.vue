@@ -40,17 +40,10 @@
                         placeholder="请输入学生账号密码，为空则为初始密码"
                     />
                 </n-form-item>
-
                 <n-form-item label="姓名" path="name">
                     <n-input
                         v-model:value="studentData.name"
                         placeholder="请输入姓名"
-                    />
-                </n-form-item>
-                <n-form-item label="昵称" path="nickname">
-                    <n-input
-                        v-model:value="studentData.nickname"
-                        placeholder="请输入昵称"
                     />
                 </n-form-item>
                 <n-form-item label="性别" path="gender">
@@ -69,6 +62,13 @@
                     <n-input
                         v-model:value="studentData.email"
                         placeholder="请输入邮箱"
+                    />
+                </n-form-item>
+                <n-form-item label="学校" path="university">
+                    <university-selector
+                        v-model="studentData.university"
+                        :university="props.formData.university"
+                        w-full
                     />
                 </n-form-item>
                 <n-form-item label="地址" path="address">
@@ -103,7 +103,7 @@
                         />
                     </n-form-item>
 
-                    <n-form-item label="身份" path="identity">
+                    <n-form-item label="学历" path="identity">
                         <n-select
                             v-model:value="studentData.identity"
                             :options="identityOptions"
@@ -139,6 +139,7 @@ import { rules } from "./common";
 import studentApi from "@/api/studentApi";
 import optionsApi from "@/api/optionsApi";
 import DefaultAvatar from "@/assets/images/defaultAvatar.png";
+import UniversitySelector from "@/components/university/UniversitySelector.vue";
 
 const loading = ref(false);
 
@@ -181,6 +182,7 @@ const studentData = ref<StudentAdd>({
     school_no: "",
     status: "",
     student_no: "",
+    university: "",
 });
 
 const formRef = ref<FormInst>();
@@ -225,6 +227,7 @@ const init = async () => {
         email: props.formData.user?.email || "",
         nickname: props.formData.user?.nickname || "",
         phone: props.formData.user?.phone || "",
+        university: props.formData.university?.id || ""
     };
 };
 

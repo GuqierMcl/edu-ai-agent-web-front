@@ -211,7 +211,6 @@ const FIELD_LABELS: Record<string, string> = {
   name: "姓名",
   phone: "手机号",
   remark: "备注",
-  school_no: "校内编号",
   student_no: "学号",
 };
 

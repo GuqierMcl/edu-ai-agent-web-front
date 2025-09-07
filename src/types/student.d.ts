@@ -1,83 +1,86 @@
 export {};
 
 declare global {
-  interface StudentUser {
-      account: string;
-      avatar: string;
-      avatar_url: string;
-      email: string;
-      expired_time: string;
-      id: string;
-      last_login: string;
-      name: string;
-      nickname: string;
-      phone: string;
-      type: string;
-  }
+    interface StudentUser {
+        account: string;
+        avatar: string;
+        avatar_url: string;
+        email: string;
+        expired_time: string;
+        id: string;
+        last_login: string;
+        name: string;
+        nickname: string;
+        phone: string;
+        type: string;
+    }
 
-  interface Student {
-      id: string;
-      address: string;
-      birth_date: string;
-      create_time: string;
-      enrollment: string;
-      gender: string;
-      identity: string;
-      identity_name: string;
-      remark: string;
-      school_no: string;
-      status: string;
-      status_name: string;
-      student_no: string;
-      update_time: string;
-      user: StudentUser;
-  }
+    interface Student {
+        id: string;
+        address: string;
+        birth_date: string;
+        create_time: string;
+        enrollment: string;
+        gender: string;
+        identity: string;
+        identity_name: string;
+        remark: string;
+        school_no: string;
+        status: string;
+        status_name: string;
+        student_no: string;
+        update_time: string;
+        user: StudentUser;
+        university: University;
+    }
 
-  interface StudentAdd {
-      account: string;
-      password: string;
-      address?: string;
-      birth_date?: string;
-      email?: string;
-      enrollment?: string;
-      gender?: string;
-      identity?: string;
-      name: string;
-      nickname: string;
-      phone: string;
-      remark?: string;
-      school_no?: string;
-      status?: string;
-      student_no?: string;
-  }
+    interface StudentAdd {
+        account: string;
+        password: string;
+        address?: string;
+        birth_date?: string;
+        email?: string;
+        enrollment?: string;
+        gender?: string;
+        identity?: string;
+        name: string;
+        nickname: string;
+        phone: string;
+        remark?: string;
+        school_no?: string;
+        status?: string;
+        student_no?: string;
+        university?: string;
+    }
 
-  interface StudentUpdate {
-      id: string;
-      address?: string;
-      birth_date?: string;
-      email?: string;
-      enrollment?: string;
-      gender?: string;
-      identity?: string;
-      name: string;
-      nickname: string;
-      phone: string;
-      remark?: string;
-      school_no?: string;
-      status?: string;
-      student_no?: string;
-  }
+    interface StudentUpdate {
+        id: string;
+        address?: string;
+        birth_date?: string;
+        email?: string;
+        enrollment?: string;
+        gender?: string;
+        identity?: string;
+        name: string;
+        nickname: string;
+        phone: string;
+        remark?: string;
+        school_no?: string;
+        status?: string;
+        student_no?: string;
+        university_id?: string;
+    }
 
-  interface StuExcel {
-    num: string;
-    account: string;
-    name: string;
-    gender: string;
-    college: string;
-    major: string;
-    grade: string;
-    clazz: string;
-    msg: string;
-    isSuccess: boolean;
-  }
+    interface StuExcel {
+        num: string;
+        account: string;
+        name: string;
+        gender: string;
+        college: string;
+        major: string;
+        grade: string;
+        clazz: string;
+        msg: string;
+        isSuccess: boolean;
+    }
 }
