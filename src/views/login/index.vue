@@ -84,6 +84,18 @@
             登录
           </n-button>
         </div>
+        
+        <div class="mt-20 w-full f-c-c">
+          <span class="text-14 color-#999">
+            还没有账号？
+            <span 
+              class="color-#3973a4 cursor-pointer hover:underline"
+              @click="goToRegister"
+            >
+              立即注册
+            </span>
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -154,11 +166,9 @@ const handleLogin = async () => {
   }
 };
 
-const verificationCode = async () => {
-  const { code, data } = await authApi.getVerifyCode();
-  if (code !== 1) return;
-  codeImage.value = data.image;
-  // loginInfo.value.uuid = data.uuid;
+
+const goToRegister = () => {
+  router.push("/register");
 };
 
 const initLoginInfo = () => {

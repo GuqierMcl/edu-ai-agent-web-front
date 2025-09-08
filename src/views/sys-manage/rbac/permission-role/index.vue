@@ -39,7 +39,6 @@
                     <n-data-table
                         size="small"
                         :single-line="false"
-                        virtual-scroll-x
                         :scroll-x="1200"
                         :columns="columns"
                         :data="tableData.records"

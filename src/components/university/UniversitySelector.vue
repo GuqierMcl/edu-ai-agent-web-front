@@ -8,7 +8,6 @@
             :loading="loading"
             @search="refreshOptions"
             :remote="true"
-            :status="model != '' ? 'success' : 'error'"
         />
     </div>
 </template>

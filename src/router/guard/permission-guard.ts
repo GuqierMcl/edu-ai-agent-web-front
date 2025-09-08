@@ -1,7 +1,7 @@
 import type { Router } from "vue-router";
 import { getToken, refreshAccessToken, isNullOrWhitespace } from "@/utils";
+import { WHITE_LIST } from "../routes";
 
-const WHITE_LIST = ["/login", "/404"];
 export const createPermissionGuard = (router: Router) => {
   router.beforeEach(async (to) => {
     const token = getToken();

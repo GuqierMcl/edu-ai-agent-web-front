@@ -1,33 +1,45 @@
 export const basicRoutes: Route.Row[] = [
-  {
-    name: "404",
-    path: "/404",
-    component: () => import("@/views/error-page/404.vue"),
-    hidden: true,
-    meta: {
-      requireAuth: false,
+    {
+        name: "404",
+        path: "/404",
+        component: () => import("@/views/error-page/404.vue"),
+        hidden: true,
+        meta: {
+            requireAuth: false,
+        },
     },
-  },
-  {
-    name: "Hello",
-    path: "/test",
-    component: () => import("@/components/Test.vue"),
-    hidden: true,
-    meta: {
-      requireAuth: false,
+    {
+        name: "Hello",
+        path: "/test",
+        component: () => import("@/components/Test.vue"),
+        hidden: true,
+        meta: {
+            requireAuth: false,
+        },
     },
-  },
-  {
-    name: "Login",
-    path: "/login",
-    component: () => import("@/views/login/index.vue"),
-    hidden: true,
-    meta: {
-      title: "登录页",
-      requireAuth: false,
+    {
+        name: "Login",
+        path: "/login",
+        component: () => import("@/views/login/index.vue"),
+        hidden: true,
+        meta: {
+            title: "登录页",
+            requireAuth: false,
+        },
     },
-  },
+    {
+        name: "Register",
+        path: "/register",
+        component: () => import("@/views/register/index.vue"),
+        hidden: true,
+        meta: {
+            title: "用户注册",
+            requireAuth: false,
+        },
+    },
 ];
+
+export const WHITE_LIST = ["/login", "/404", "/register"]
 
 export const NOT_FOUND_ROUTE: Route.Row = {
   name: "NotFound",
