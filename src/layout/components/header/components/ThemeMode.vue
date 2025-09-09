@@ -1,5 +1,5 @@
 <template>
-  <n-icon class="mr-20 cursor-pointer" size="18" @click="changeTheme">
+  <n-icon class="mx-20 cursor-pointer" size="18" @click="changeTheme">
     <NightlightRoundFilled v-if="appStore.isDark" />
     <LightModeFilled v-else />
   </n-icon>
