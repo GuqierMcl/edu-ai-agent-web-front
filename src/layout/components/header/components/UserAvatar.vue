@@ -11,7 +11,25 @@
                 "
                 :fallback-src="DefaultAvatar"
             />
-            <span class="ml-10">{{ userStore.name }}</span>
+            <span class="ml-10 pt-2">{{ userStore.name }}</span>
+            <n-tag
+                :bordered="false"
+                class="ml-10"
+                :type="
+                    userStore.userInfo.type == '0'
+                        ? 'error'
+                        : userStore.userInfo.type == '1'
+                        ? 'info'
+                        : 'success'
+                "
+                >{{
+                    userStore.userInfo.type == "0"
+                        ? "管理员用户"
+                        : userStore.userInfo.type == "1"
+                        ? "教师用户"
+                        : "学生用户"
+                }}</n-tag
+            >
         </div>
     </n-dropdown>
     <n-modal
