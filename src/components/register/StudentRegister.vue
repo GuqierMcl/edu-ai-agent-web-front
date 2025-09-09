@@ -1,299 +1,571 @@
 <template>
-  <div class="w-430 flex-col px-20 py-25">
-    <h5
-      class="f-c-c text-36 fw-400 color-#3973a4"
-      style="font-family: YouShe"
-    >
-      学生注册
-    </h5>
-    
-    <div class="mt-30">
-      <n-input
-        v-model:value="registerInfo.studentId"
-        class="h-50 items-center text-16 rounded-12 bg-#f5f5f5 color-black"
-        placeholder="请输入学号"
-        :maxlength="20"
-      >
-        <template #prefix>
-          <n-icon
-            :component="IdCardIcon"
-            size="28"
-            color="#aaa"
-            class="mr-10"
-          />
-        </template>
-      </n-input>
-    </div>
+    <div class="w-800 flex-col px-20 py-25 f-c-c">
+        <n-spin :show="loading">
+            <h5
+                class="f-c-c text-36 fw-400 color-#3973a4"
+                style="font-family: YouShe"
+            >
+                学生注册
+            </h5>
 
-    <div class="mt-30">
-      <n-input
-        v-model:value="registerInfo.name"
-        class="h-50 items-center text-16 rounded-12 bg-#f5f5f5 color-black"
-        placeholder="请输入真实姓名"
-        :maxlength="20"
-      >
-        <template #prefix>
-          <n-icon
-            :component="PersonIcon"
-            size="28"
-            color="#aaa"
-            class="mr-10"
-          />
-        </template>
-      </n-input>
-    </div>
+            <n-steps :current="currentStep" status="process" class="mt-30">
+                <n-step title="填写账户信息" />
+                <n-step title="完善个人信息" />
+                <n-step title="成功注册" />
+            </n-steps>
 
-    <div class="mt-30">
-      <n-input
-        v-model:value="registerInfo.phone"
-        class="h-50 items-center text-16 rounded-12 bg-#f5f5f5 color-black"
-        placeholder="请输入手机号"
-        :maxlength="11"
-      >
-        <template #prefix>
-          <n-icon
-            :component="PhoneIcon"
-            size="28"
-            color="#aaa"
-            class="mr-10"
-          />
-        </template>
-      </n-input>
-    </div>
+            <div class="mt-30 w-full">
+                <n-form
+                    ref="formRef"
+                    :model="registerInfo"
+                    :rules="rules"
+                    label-placement="top"
+                    label-width="auto"
+                    require-mark-placement="right-hanging"
+                    size="large"
+                >
+                    <div v-show="currentStep == 1">
+                        <n-grid :cols="24" :x-gap="24">
+                            <n-form-item-gi
+                                :span="24"
+                                label="账号"
+                                path="account"
+                            >
+                                <n-input
+                                    v-model:value="registerInfo.account"
+                                    round
+                                    placeholder="请输入账号"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="密码"
+                                path="password"
+                            >
+                                <n-input
+                                    type="password"
+                                    v-model:value="registerInfo.password"
+                                    round
+                                    placeholder="请输入密码"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="确认密码"
+                                path="verify_password"
+                            >
+                                <n-input
+                                    type="password"
+                                    v-model:value="registerInfo.verify_password"
+                                    round
+                                    placeholder="请再次输入密码"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="姓名"
+                                path="name"
+                                suffix
+                            >
+                                <n-input
+                                    round
+                                    v-model:value="registerInfo.name"
+                                    placeholder="请输入姓名"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="手机号"
+                                path="phone"
+                            >
+                                <n-input
+                                    round
+                                    v-model:value="registerInfo.phone"
+                                    placeholder="请输入手机号"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="电子邮箱"
+                                path="email"
+                            >
+                                <n-input
+                                    round
+                                    v-model:value="registerInfo.email"
+                                    placeholder="请输入电子邮箱"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="手机验证码"
+                                path="verify_code"
+                            >
+                                <n-input-group>
+                                    <n-input
+                                        round
+                                        v-model:value="registerInfo.verify_code"
+                                        placeholder="请输入验证码"
+                                    />
+                                    <n-button
+                                        round
+                                        @click="getVerifyCode"
+                                        :disabled="sending || counting"
+                                        :loading="sending"
+                                    >
+                                        {{
+                                            counting
+                                                ? counter + "s后重试"
+                                                : "发送验证码"
+                                        }}
+                                    </n-button>
+                                </n-input-group>
+                            </n-form-item-gi>
+                        </n-grid>
+                    </div>
+                    <div v-show="currentStep == 2">
+                        <n-grid :cols="24" :x-gap="24">
+                            <n-form-item-gi
+                                :span="12"
+                                label="出生日期"
+                                path="birth_date"
+                            >
+                                <n-date-picker
+                                    v-model:formatted-value="
+                                        registerInfo.birth_date
+                                    "
+                                    value-format="yyyy-MM-dd"
+                                    type="date"
+                                    placeholder="请输入生日"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="性别"
+                                path="gender"
+                            >
+                                <n-radio-group
+                                    v-model:value="registerInfo.gender"
+                                >
+                                    <n-radio value="1"> 男 </n-radio>
+                                    <n-radio value="0"> 女 </n-radio>
+                                </n-radio-group>
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="学历层次"
+                                path="identity"
+                            >
+                                <n-select
+                                    v-model:value="registerInfo.identity"
+                                    :options="identityOptions"
+                                    placeholder="请选择学历层次"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="学校"
+                                path="university"
+                            >
+                                <university-selector
+                                    v-model="registerInfo.university"
+                                    w-full
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="入学年份"
+                                path="enrollment"
+                            >
+                                <n-date-picker
+                                    v-model:formatted-value="
+                                        registerInfo.enrollment
+                                    "
+                                    value-format="yyyy-MM-dd"
+                                    type="date"
+                                    placeholder="请输入入学年份"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="学号"
+                                path="student_no"
+                            >
+                                <n-input
+                                    round
+                                    v-model:value="registerInfo.student_no"
+                                    placeholder="请输入学号"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="学籍状态"
+                                path="status"
+                            >
+                                <n-select
+                                    v-model:value="registerInfo.status"
+                                    :options="statusOptions"
+                                    placeholder="请选择学籍状态"
+                                />
+                            </n-form-item-gi>
+                            <n-form-item-gi
+                                :span="12"
+                                label="地址"
+                                path="address"
+                            >
+                                <n-input
+                                    round
+                                    v-model:value="registerInfo.address"
+                                    placeholder="请输入地址"
+                                />
+                            </n-form-item-gi>
+                        </n-grid>
+                    </div>
+                    <div v-show="currentStep === 3">
+                        <n-result
+                            status="success"
+                            title="注册成功"
+                            description="欢迎加入！"
+                        >
+                            <template #footer>
+                                <n-button
+                                    class="h-50 w-150 rounded-12 text-16"
+                                    @click="goToLogin"
+                                    type="primary"
+                                >
+                                    <template #icon>
+                                        <n-icon>
+                                            <ArrowBackIosFilled />
+                                        </n-icon>
+                                    </template>
+                                    返回登录页面
+                                </n-button>
+                            </template>
+                        </n-result>
+                    </div>
+                </n-form>
+            </div>
 
-    <div class="mt-30">
-      <n-input
-        v-model:value="registerInfo.email"
-        class="h-50 items-center text-16 rounded-12 bg-#f5f5f5 color-black"
-        placeholder="请输入邮箱"
-        :maxlength="50"
-      >
-        <template #prefix>
-          <n-icon
-            :component="EmailIcon"
-            size="28"
-            color="#aaa"
-            class="mr-10"
-          />
-        </template>
-      </n-input>
-    </div>
+            <div class="mt-20 h-20"></div>
 
-    <div class="mt-30">
-      <n-select
-        v-model:value="registerInfo.universityId"
-        class="h-50"
-        placeholder="请选择学校"
-        :options="universityOptions"
-        :loading="universityLoading"
-      >
-        <template #prefix>
-          <n-icon
-            :component="SchoolIcon"
-            size="28"
-            color="#aaa"
-            class="mr-10"
-          />
-        </template>
-      </n-select>
+            <div class="mt-20 w-full f-c-c gap-15">
+                <n-button
+                    class="h-50 w-120 rounded-12 text-16"
+                    @click="$emit('goBack')"
+                    v-if="currentStep < 3"
+                >
+                    返回
+                </n-button>
+                <div class="ml-auto">
+                    <n-button
+                        class="h-50 w-120 rounded-12 text-16"
+                        @click="currentStep--"
+                        v-if="currentStep > 1 && currentStep < 3"
+                    >
+                        <template #icon>
+                            <n-icon>
+                                <ArrowBackFilled />
+                            </n-icon>
+                        </template>
+                        上一步
+                    </n-button>
+                    <n-button
+                        class="h-50 w-120 rounded-12 text-16"
+                        @click="next"
+                        v-if="currentStep < 2"
+                        type="primary"
+                    >
+                        <template #icon>
+                            <n-icon>
+                                <ArrowForwardFilled />
+                            </n-icon>
+                        </template>
+                        下一步
+                    </n-button>
+                    <n-button
+                        class="h-50 w-120 rounded-12 text-16 ml-10"
+                        type="primary"
+                        :loading="loading"
+                        @click="save"
+                        v-if="currentStep > 1 && currentStep < 3"
+                    >
+                        <template #icon>
+                            <n-icon>
+                                <BorderColorFilled />
+                            </n-icon>
+                        </template>
+                        注册
+                    </n-button>
+                </div>
+            </div>
+        </n-spin>
     </div>
-
-    <div class="mt-30">
-      <n-input
-        v-model:value="registerInfo.major"
-        class="h-50 items-center text-16 rounded-12 bg-#f5f5f5 color-black"
-        placeholder="请输入专业"
-        :maxlength="50"
-      >
-        <template #prefix>
-          <n-icon
-            :component="BookIcon"
-            size="28"
-            color="#aaa"
-            class="mr-10"
-          />
-        </template>
-      </n-input>
-    </div>
-
-    <div class="mt-30">
-      <n-input
-        v-model:value="registerInfo.password"
-        class="h-50 items-center text-16 rounded-12 bg-#f5f5f5 color-black"
-        type="password"
-        show-password-on="mousedown"
-        placeholder="请输入密码"
-        :maxlength="20"
-      >
-        <template #prefix>
-          <n-icon
-            :component="LockIcon"
-            size="28"
-            color="#aaa"
-            class="mr-10"
-          />
-        </template>
-      </n-input>
-    </div>
-
-    <div class="mt-30">
-      <n-input
-        v-model:value="registerInfo.confirmPassword"
-        class="h-50 items-center text-16 rounded-12 bg-#f5f5f5 color-black"
-        type="password"
-        show-password-on="mousedown"
-        placeholder="请确认密码"
-        :maxlength="20"
-        @keydown.enter="handleRegister"
-      >
-        <template #prefix>
-          <n-icon
-            :component="LockIcon"
-            size="28"
-            color="#aaa"
-            class="mr-10"
-          />
-        </template>
-      </n-input>
-    </div>
-
-    <div class="mt-20 h-20"></div>
-
-    <div class="mt-20 w-full f-c-c gap-15">
-      <n-button
-        class="h-50 w-120 rounded-12 text-16 bg-#f5f5f5! color-#666"
-        @click="$emit('goBack')"
-      >
-        返回
-      </n-button>
-      <n-button
-        class="h-50 w-120 rounded-12 text-16 bg-#3973a4! color-white"
-        type="primary"
-        :loading="loading"
-        @click="handleRegister"
-      >
-        注册
-      </n-button>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { StudentRegisterInfo, TeacherRegisterInfo } from "@/api/authApi";
+import { ref, onMounted, unref, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
-// TODO: 导入合适的图标组件
-// import { 
-//   Person, 
-//   Lock, 
-//   Phone, 
-//   Email, 
-//   School, 
-//   Book,
-//   IdCard 
-// } from "@vicons/material";
+import type { FormItemRule, SelectOption, FormInst } from "naive-ui";
+import {
+    ArrowBackFilled,
+    ArrowForwardFilled,
+    BorderColorFilled,
+    ArrowBackIosFilled,
+} from "@vicons/material";
+const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value);
+import UniversitySelector from "@/components/university/UniversitySelector.vue";
+import optionsApi from "@/api/optionsApi";
+import authApi from "@/api/authApi";
+import { isArray } from "@/utils";
 
 const router = useRouter();
-
 // 定义事件
 const emit = defineEmits<{
-  goBack: []
+    goBack: [];
 }>();
 
-// 临时图标，实际使用时请替换为合适的图标
-const PersonIcon = ref(null);
-const LockIcon = ref(null);
-const PhoneIcon = ref(null);
-const EmailIcon = ref(null);
-const SchoolIcon = ref(null);
-const BookIcon = ref(null);
-const IdCardIcon = ref(null);
-
 const loading = ref(false);
-const universityLoading = ref(false);
-const universityOptions = ref([]);
+const currentStep = ref(1);
+const formRef = ref<FormInst>();
 
-const registerInfo = ref({
-  studentId: "",
-  name: "",
-  phone: "",
-  email: "",
-  universityId: null,
-  major: "",
-  password: "",
-  confirmPassword: "",
+const registerInfo = ref(<StudentRegisterInfo>{
+    account: "",
+    address: "",
+    birth_date: null,
+    email: "",
+    enrollment: null,
+    gender: "",
+    identity: "",
+    name: "",
+    password: "",
+    phone: "",
+    remark: "",
+    status: "",
+    student_no: "",
+    university: "",
+    verify_code: "",
 });
 
-const handleRegister = async () => {
-  // TODO: 表单验证
-  const { studentId, name, phone, email, universityId, major, password, confirmPassword } = registerInfo.value;
-  
-  if (!studentId || !name || !phone || !email || !universityId || !major || !password || !confirmPassword) {
-    window.$message.warning("请填写完整信息");
-    return;
-  }
+const counting = ref(false);
+const counter = ref(60);
+const sending = ref(false);
+let timer: ReturnType<typeof setInterval> | null;
+const getVerifyCode = async () => {
+    if (!/^1[3456789]\d{9}$/.test(registerInfo.value.phone)) {
+        window.$message.warning("请填写正确的手机号");
+    } else {
+        sending.value = true;
+        try {
+            const { code, data } = await authApi.getVerifyCode(
+                registerInfo.value.phone
+            );
+            if (code === 1) {
+                window.$message.success("验证码已发送");
+                startCountdown();
 
-  if (password !== confirmPassword) {
-    window.$message.warning("两次输入的密码不一致");
-    return;
-  }
+                window.$notify.success({
+                    title: "验证码",
+                    content: data.verify_code,
+                });
+            }
+        } catch (e: any) {
+            window.$message.error(e.msg || "发送失败");
+        } finally {
+            sending.value = false;
+        }
+    }
+};
 
-  loading.value = true;
+/* 倒计时逻辑 */
+const startCountdown = () => {
+    counting.value = true;
+    counter.value = 60;
+    timer = setInterval(() => {
+        counter.value--;
+        if (counter.value <= 0) {
+            clearInterval(timer!);
+            counting.value = false;
+        }
+    }, 1000);
+};
 
-  try {
-    // TODO: 调用学生注册接口
-    // const { code, data } = await studentApi.register(registerInfo.value);
-    // if (code !== 1) {
-    //   return;
-    // }
-    
-    window.$message.success("注册成功，请登录");
-    router.push("/login");
-  } catch (error) {
-    console.log(error);
-    // TODO: 错误处理
-  } finally {
+const identityOptions = ref(<SelectOption[]>[]);
+const getIdentityOptions = async () => {
+    const { code, data } = await optionsApi.getOptions("student_identity");
+    if (code === 1) {
+        identityOptions.value = data;
+    }
+};
+
+const statusOptions = ref(<SelectOption[]>[]);
+const getStatusOptions = async () => {
+    const { code, data } = await optionsApi.getOptions("student_status");
+    if (code === 1) {
+        statusOptions.value = data;
+    }
+};
+
+const professionOptions = ref(<SelectOption[]>[]);
+const getProfessionOptions = async () => {
+    const { code, data } = await optionsApi.getOptions("teacher_profession");
+    if (code === 1) {
+        professionOptions.value = data;
+    }
+};
+const init = async () => {
+    loading.value = true;
+    await getIdentityOptions();
+    await getStatusOptions();
+    await getProfessionOptions();
     loading.value = false;
-  }
 };
 
-const loadUniversities = async () => {
-  // TODO: 加载学校列表
-  // universityLoading.value = true;
-  // try {
-  //   const { code, data } = await universityApi.getList();
-  //   if (code === 1) {
-  //     universityOptions.value = data.map(item => ({
-  //       label: item.name,
-  //       value: item.id
-  //     }));
-  //   }
-  // } catch (error) {
-  //   console.log(error);
-  // } finally {
-  //   universityLoading.value = false;
-  // }
+const next = async () => {
+    currentStep.value++;
 };
 
-onMounted(() => {
-  loadUniversities();
+const save = async () => {
+    formRef.value?.validate(async (errors) => {
+        if (!errors) {
+            if (
+                registerInfo.value.password !=
+                registerInfo.value.verify_password
+            ) {
+              window.$message.error("两次输入的密码不一致");
+                return
+            }
+            // if (isArray(registerInfo.value.verify_code)) {
+            //     // @ts-ignore
+            //     registerInfo.value.verify_code =
+            //         registerInfo.value.verify_code.join("");
+            // }
+
+            loading.value = true;
+            const { code } = await authApi.registerStudent(registerInfo.value);
+
+            if (code === 1) {
+                window.$message.success("注册成功！");
+                currentStep.value++;
+            }
+            loading.value = false;
+        } else {
+            console.log(errors);
+            window.$message.error("请完善信息");
+        }
+    });
+};
+
+const goToLogin = () => {
+    router.push("/login");
+};
+
+onMounted(async () => {
+    init();
 });
+
+/* 组件卸载清理定时器 */
+onUnmounted(() => {
+    if (timer) clearInterval(timer);
+});
+
+const rules = {
+    account: {
+        required: true,
+        message: "请输入账号",
+        trigger: ["input", "blur"],
+        validator: (rule: FormItemRule, value: string) =>
+            /^(?![_]*$)[A-Za-z0-9_]+$/.test(value),
+    },
+    name: {
+        required: true,
+        message: "请输入姓名",
+        trigger: ["input", "blur"],
+    },
+    password: {
+        required: true,
+        message: "请输入密码（8-20位字母/数字）",
+        trigger: ["input", "blur"],
+        validator: (rule: FormItemRule, value: string) =>
+            /^[A-Za-z0-9]{8,20}$/.test(value),
+    },
+    verify_password: {
+        required: true,
+        message: "请再次输入密码",
+        trigger: ["input", "blur"],
+        validator: (rule: FormItemRule, value: string) =>
+            /^[A-Za-z0-9]{8,20}$/.test(value),
+    },
+    phone: {
+        required: true,
+        message: "请输入正确的手机号",
+        trigger: ["blur"],
+        validator: (rule: FormItemRule, value: string) =>
+            /^1[3456789]\d{9}$/.test(value),
+    },
+    email: {
+        required: true,
+        message: "请输入正确的邮箱",
+        trigger: ["blur"],
+        validator: (rule: FormItemRule, value: string) =>
+            /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(
+                value
+            ),
+    },
+    university: {
+        required: true,
+        message: "请选择学校",
+        trigger: ["change"],
+    },
+    student_no: {
+        required: true,
+        message: "请输入学号",
+        trigger: ["input", "blur"],
+    },
+    identity: {
+        required: true,
+        message: "请选择学历层次",
+        trigger: ["change"],
+    },
+    gender: {
+        required: true,
+        message: "请选择性别",
+        trigger: ["change"],
+    },
+    birth_date: {
+        required: true,
+        message: "请选择出生日期",
+        trigger: ["change", "blur"],
+    },
+    enrollment: {
+        required: true,
+        message: "请选择入学年份",
+        trigger: ["change"],
+    },
+    status: {
+        required: true,
+        message: "请选择状态",
+        trigger: ["change"],
+    },
+    address: {
+        required: false, // 选填
+        trigger: ["blur"],
+        validator: (rule: FormItemRule, value: string) =>
+            !value || value.length <= 200, // 若有则≤200字
+    },
+    remark: {
+        required: false, // 选填
+        trigger: ["blur"],
+        validator: (rule: FormItemRule, value: string) =>
+            !value || value.length <= 500, // 若有则≤500字
+    },
+    verify_code: {
+        required: true,
+        message: "请输入验证码（4-6位）",
+        trigger: ["input", "blur"],
+        validator: (rule: FormItemRule, value: string) =>
+            /^[A-Za-z0-9]{4,6}$/.test(value),
+    },
+};
 </script>
 
-<style scoped>
-:deep(.n-input .n-input__border) {
-  border: 0px !important;
-}
-:deep(.n-button .n-button__border) {
-  border: 0px !important;
-}
-:deep(.n-select .n-base-selection) {
-  border: 0px !important;
-  background-color: #f5f5f5 !important;
-}
-:deep(.n-input .n-input__input-el) {
-  color: #555;
-}
-:deep(.n-input .n-input__placeholder) {
-  color: #aaa;
-}
-</style>
+<style scoped></style>

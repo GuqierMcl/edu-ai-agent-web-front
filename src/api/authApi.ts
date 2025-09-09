@@ -24,6 +24,24 @@ export interface TeacherRegisterInfo {
     [property: string]: any;
 }
 
+export interface StudentRegisterInfo {
+    account: string;
+    address: string;
+    birth_date: string | null;
+    email: string;
+    enrollment: string | null;
+    gender: string;
+    identity: string;
+    name: string;
+    password: string;
+    phone: string;
+    remark: string;
+    status: string;
+    student_no: string;
+    university: string;
+    verify_code: string;
+    [property: string]: any;
+}
 
 export default {
     login: (loginInfo: LoginInfo) => request.post("/auth/login", loginInfo),
@@ -33,4 +51,6 @@ export default {
         request.post("/auth/get_verify_code", { phone }),
     registerTeacher: (data: TeacherRegisterInfo) =>
         request.post("/auth/register_teacher", data),
+    registerStudent: (data: StudentRegisterInfo) =>
+        request.post("/auth/register_student", data),
 };

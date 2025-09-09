@@ -4,10 +4,14 @@
         :style="{ backgroundImage: `url(${bgImg})`, overflowY: 'auto' }"
     >
         <div
-            style="transform: translateY(25px)"
             class="max-w-700 min-w-500 f-c-c rounded-30 bg-white p-15 card-shadow"
         >
-            <!-- <transition name="step-fade" mode="out-in"> -->
+            <!-- <transition-group
+                appear
+                name="animate__animated animate__fade"
+                enter-active-class="animate__fadeIn"
+                leave-active-class="animate__fadeOut"
+            > -->
                 <!-- 身份选择页面 -->
                 <div
                     v-if="currentStep === 'select'"
@@ -129,7 +133,7 @@
                     key="teacher"
                     @goBack="goBackToSelect"
                 />
-            <!-- </transition> -->
+            <!-- </transition-group> -->
         </div>
     </div>
 </template>
@@ -173,7 +177,6 @@ import bgImg from "@/assets/images/login_bg.jpg";
 </script>
 
 <style scoped>
-
 /* 步骤切换过渡动画 */
 .step-fade-enter-active,
 .step-fade-leave-active {

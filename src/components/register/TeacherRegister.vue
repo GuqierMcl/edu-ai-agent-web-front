@@ -419,6 +419,7 @@ const save = async () => {
                 registerInfo.value.verify_password
             ) {
                 window.$message.error("两次输入的密码不一致");
+                return;
             }
             // if (isArray(registerInfo.value.verify_code)) {
             //     // @ts-ignore
