@@ -212,6 +212,13 @@ export const rules = {
             trigger: ["input", "blur"],
         },
     ],
+    gender: [
+        {
+            required: true,
+            message: "请选择性别",
+            trigger: ["input", "blur"],
+        },
+    ],
     phone: [
         {
             required: true,
@@ -272,7 +279,7 @@ export const rules = {
     ],
     birth_date: [
         {
-            required: false,
+            required: true,
             message: "请输入生日",
             trigger: ["input", "blur"],
         },
