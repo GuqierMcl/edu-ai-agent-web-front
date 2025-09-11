@@ -1,10 +1,20 @@
 import { request } from "@/utils";
 
+interface TeacherParams {
+    name: string;
+    account: string;
+    phone: string;
+    email: string;
+    gender: string;
+}
+
+interface TeacherPageParams extends Page.Req, TeacherParams {}
+
+
 export default {
-  getList: () => request.get<Teacher[]>("/teacher"),
-  add: (teacher: TeacherAdd) => request.post("/teacher", teacher),
-  update: (teacher: TeacherAdd) => request.put("/teacher", teacher),
-  remove: (id: string) => request.delete("/teacher", { teacherId: id }),
-  removeBatch: (ids: string[]) =>
-    request.delete("/teacher/batch", { ids: ids }),
+  getList: (params: TeacherPageParams) => 
+    request.get<Page.Resp<Teacher>>("/teacher/mng",params),
+  add: (data: TeacherAdd) => request.post("/teacher/mng", data),
+  update: (data: TeacherUpdate) => request.put("/teacher/mng", data),
+  remove: (ids: string[]) => request.delete("/teacher/mng", { ids: ids }),
 };
