@@ -1,8 +1,9 @@
 import { h } from "vue";
-import { NButton, NIcon } from "naive-ui";
-import type { DataTableColumns, FormItemRule } from "naive-ui";
+import { NAvatar, NButton, NIcon, NImage, FormItemRule } from "naive-ui";
+import type { DataTableColumns } from "naive-ui";
 import { EditNoteRound, CloseRound } from "@vicons/material";
-import { Type } from "naive-ui/lib/button/src/interface";
+import DefaultAvatar from "@/assets/images/defaultAvatar.png";
+import { identity } from "@vueuse/core";
 
 export const generateColumns = (doEdit: Function, doDelete: Function) => {
   const columns: DataTableColumns<Teacher> = [
@@ -15,14 +16,30 @@ export const generateColumns = (doEdit: Function, doDelete: Function) => {
       render: (_, index) => `${index + 1}`,
     },
     {
+      title: "头像",
+      key: "user.avatar_url",
+      width: 60,
+      ellipsis: { tooltip: true },
+      render(row) {
+        return h(NAvatar, {
+          width: 40,
+          round: true,
+          maxHeight: 40,
+          src: row.user.avatar_url
+            ? row.user.avatar_url
+            : DefaultAvatar,
+        });
+      },
+    },
+    {
       title: "账号",
-      key: "account",
+      key: "user.account",
       width: 120,
       ellipsis: { tooltip: true },
     },
     {
       title: "姓名",
-      key: "name",
+      key: "user.name",
       width: 90,
       ellipsis: { tooltip: true },
     },
@@ -41,38 +58,37 @@ export const generateColumns = (doEdit: Function, doDelete: Function) => {
     },
     {
       title: "手机号",
-      key: "phone",
+      key: "user.phone",
+      width: 120,
+      ellipsis: { tooltip: true },
+    },
+    {
+      title: "学校",
+      key: "university.school_name",
       width: 120,
       ellipsis: { tooltip: true },
     },
     {
       title: "邮箱",
-      key: "email",
+      key: "user.email",
       width: 150,
       ellipsis: { tooltip: true },
     },
     {
-      title: "职位",
-      key: "position",
-      width: 90,
+      title: "出生日期",
+      key: "birth_date",
+      width: 100,
+      ellipsis: { tooltip: true },
+    },
+    {
+      title: "上次登录",
+      key: "last_login",
+      width: 100,
+      ellipsis: { tooltip: true },
       render(row) {
-        let name: string;
-        let type: Type = "default";
-        if (row.position == "0") {
-          name = "管理员";
-          type = "info";
-        } else if (row.position == "1") {
-          name = "教师";
-          type = "success";
-        }
-        return h(
-          NButton,
-          {
-            tertiary: true,
-            type: type,
-          },
-          { default: () => name }
-        );
+        return row.user.last_login
+          ? new Date(row.user.last_login).toLocaleString()
+          : "-";
       },
     },
     {
@@ -123,17 +139,6 @@ export const generateColumns = (doEdit: Function, doDelete: Function) => {
   };
 };
 
-export const generalOptions = [
-  {
-    value: "0",
-    label: "管理员",
-  },
-  {
-    value: "1",
-    label: "教师",
-  },
-];
-
 export const rules = {
   name: {
     required: true,
@@ -145,38 +150,114 @@ export const rules = {
     message: "请输入账号",
     trigger: ["input", "blur"],
   },
-  position: {
+  phone: [
+    {
+      required: true,
+      message: "请输入正确的电话",
+      validator: (rule: FormItemRule, value: string) => {
+        if (value == null || value == "") {
+          return true;
+        }
+        return /^1[3456789]\d{9}$/.test(value);
+      },
+      trigger: ["blur"],
+    },
+  ],
+  password: {
     required: true,
-    message: "请选择职位",
-    trigger: ["change", "blur"],
-  },
-  phone: {
+    message: "请输入密码",
     trigger: ["input", "blur"],
-    validator(rule: FormItemRule, value: string) {
-      if (!value) {
-        return new Error("请输入手机号");
-      } else if (!/^1[3456789]\d{9}$/.test(value)) {
-        return new Error("请输入正确的手机号");
-      }
-      return true;
+    validator: (rule: FormItemRule, value: string) => {
+      // 8-20位数字和字母组合
+      return /^[A-Za-z0-9]{8,20}$/.test(value);
     },
   },
-  email: {
-    trigger: ["input", "blur"],
-    validator(rule: FormItemRule, value: string) {
-      if (!value) {
-        return new Error("请输入邮箱");
-      } else if (
-        !/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(value)
-      ) {
-        return new Error("请输入正确的邮箱");
-      }
-      return true;
+  nickname: [
+    {
+      required: true,
+      message: "请输入昵称",
+      trigger: ["input", "blur"],
     },
+  ],
+  email: [
+    {
+      required: true,
+      message: "请输入正确的邮箱",
+      validator: (rule: FormItemRule, value: string) => {
+        console.log(value);
+
+        if (value == null || value == "") {
+          return true;
+        }
+        return /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(
+          value
+        );
+      },
+      trigger: ["blur"],
+    },
+  ],
+  profession: {
+    required: true,
+    message: "请输入职业",
+    trigger: ["input", "blur"],
   },
-  gender: {
+  department: {
+    required: true,
+    message: "请输入部门",
+    trigger: ["input", "blur"],
+  },
+  birth_date: [
+    {
+      required: true,
+      message: "请输入生日",
+      trigger: ["input", "blur"],
+    },
+  ],
+  university: [
+    {
+      required: true,
+      message: "请选择学校",
+      trigger: ["input", "blur"],
+    },
+  ],
+  gender:
+  {
     required: true,
     message: "请选择性别",
     trigger: ["change"],
   },
+  subject: [
+    {
+      required: true,
+      message: "请输入科目",
+      trigger: ["input", "blur"],
+    },
+  ],
+  professional_title: [
+    {
+      required: true,
+      message: "请输入职称",
+      trigger: ["input", "blur"],
+    },
+  ],
 };
+
+export const pageSizes = [
+  {
+    label: "10 每页",
+    value: 10,
+  },
+  {
+    label: "20 每页",
+    value: 20,
+  },
+  {
+    label: "30 每页",
+    value: 30,
+  },
+  {
+    label: "40 每页",
+    value: 40,
+  },
+];
+

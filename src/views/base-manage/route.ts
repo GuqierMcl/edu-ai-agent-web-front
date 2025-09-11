@@ -40,6 +40,7 @@ export default {
             path: "/base/teacher",
             component: () => import("./teacher/index.vue"),
             meta: {
+                perm: ["page:common:base:student"],
                 title: "教师信息管理",
                 icon: markRaw(PersonRound),
                 role: ["admin"],
