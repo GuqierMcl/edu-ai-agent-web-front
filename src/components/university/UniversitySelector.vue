@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineModel, defineProps } from "vue";
+import { ref, onMounted } from "vue";
 import universityApi from "@/api/universityApi";
 import { SelectOption } from "naive-ui";
 
@@ -35,7 +35,7 @@ const refreshOptions = async (query: string) => {
     loading.value = true;
     const { code, data } = await universityApi.search(query);
     if (code === 1) {
-        options.value = data.map((item) => {
+        options.value = data.map((item: any) => {
             return {
                 label: item.school_name,
                 value: item.id,

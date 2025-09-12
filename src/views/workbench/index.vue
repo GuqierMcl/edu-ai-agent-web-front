@@ -149,7 +149,6 @@ import { useUserStore } from "@/store";
 import workbenchApi from "@/api/workbenchApi";
 import { onMounted, ref, computed } from "vue";
 import DefaultAvatar from "@/assets/images/defaultAvatar.png";
-import myEcharts from "./echarts/index.vue";
 import { useTimeGreeting } from '@/hooks/useTimeGreeting';
 
 const greeting = useTimeGreeting();

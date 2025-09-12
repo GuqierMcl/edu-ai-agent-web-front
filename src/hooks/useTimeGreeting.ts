@@ -17,7 +17,7 @@ const timeRanges: Array<[start: number, end: number, label: TimeGreeting]> = [
  * 获取当前时段问候语（Vue组合式函数）
  * @returns 响应式的时段问候语
  */
-export function useTimeGreeting() {
+export const useTimeGreeting = () => {
   // 直接计算初始值（合并初始化逻辑）
   const currentHour = new Date().getHours();
   const greeting = timeRanges.find(([s, e]) => currentHour >= s && currentHour < e)?.[2] || '晚上';

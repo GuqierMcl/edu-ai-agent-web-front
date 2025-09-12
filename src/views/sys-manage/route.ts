@@ -49,41 +49,41 @@ export default {
                 order: 1,
             },
         },
-        {
-            name: "UserManage",
-            path: "/sys/user",
-            component: AppPageSlide,
-            meta: {
-                title: "用户管理",
-                icon: markRaw(ManRound),
-                role: ["admin"],
-                order: 1,
-            },
-            children: [
-                {
-                    name: "AdminManage",
-                    path: "/sys/admin",
-                    component: () => import("./user/admin/index.vue"),
-                    meta: {
-                        title: "管理员信息",
-                        icon: markRaw(AdminPanelSettingsRound),
-                        role: ["admin"],
-                        order: 1,
-                    },
-                },
-                {
-                    name: "UserSearch",
-                    path: "/sys/user/search",
-                    component: () => import("./user/search/index.vue"),
-                    meta: {
-                        title: "用户综合查询",
-                        icon: markRaw(PersonSearchRound),
-                        role: ["admin"],
-                        order: 2,
-                    },
-                },
-            ],
-        },
+        // {
+        //     name: "UserManage",
+        //     path: "/sys/user",
+        //     component: AppPageSlide,
+        //     meta: {
+        //         title: "用户管理",
+        //         icon: markRaw(ManRound),
+        //         role: ["admin"],
+        //         order: 1,
+        //     },
+        //     children: [
+        //         {
+        //             name: "AdminManage",
+        //             path: "/sys/admin",
+        //             component: () => import("./user/admin/index.vue"),
+        //             meta: {
+        //                 title: "管理员信息",
+        //                 icon: markRaw(AdminPanelSettingsRound),
+        //                 role: ["admin"],
+        //                 order: 1,
+        //             },
+        //         },
+        //         {
+        //             name: "UserSearch",
+        //             path: "/sys/user/search",
+        //             component: () => import("./user/search/index.vue"),
+        //             meta: {
+        //                 title: "用户综合查询",
+        //                 icon: markRaw(PersonSearchRound),
+        //                 role: ["admin"],
+        //                 order: 2,
+        //             },
+        //         },
+        //     ],
+        // },
         {
             name: "Auth",
             path: "/sys/perm",
