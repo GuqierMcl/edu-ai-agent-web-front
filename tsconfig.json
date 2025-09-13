@@ -21,7 +21,7 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue", "src/views/social-manage/route.ts_",
+    "src/**/*.vue"
     // "./components.d.ts",
     // "./auto-imports.d.ts"
   ],
